@@ -76,17 +76,17 @@ def main():
     create_table()
 
     menu = ['Add Student', 'Update Student', 'Delete Student', 'View Students']
-    choice = st.sidebar.selectbox('Menu', menu)
+    choice = st.selectbox('Select Operation', menu)
 
     if choice == 'Add Student':
         st.subheader('Add Student')
-        with st.form(key='add_student_form'):
+        with st.expander("Add New Student"):
             roll_no = st.text_input('Roll No')
             name = st.text_input('Name')
             email = st.text_input('Email')
             age = st.text_input('Age')
             gender = st.selectbox('Gender', ['Male', 'Female', 'Other'])
-            submit_button = st.form_submit_button(label='Add Student')
+            submit_button = st.button('Add Student')
         
         if submit_button and validate_input(name, email, age, gender, roll_no):
             insert_student(roll_no, name, email, int(age), gender)
@@ -94,13 +94,13 @@ def main():
 
     elif choice == 'Update Student':
         st.subheader('Update Student')
-        with st.form(key='update_student_form'):
+        with st.expander("Update Existing Student"):
             roll_no = st.text_input('Roll No')
             name = st.text_input('Name')
             email = st.text_input('Email')
             age = st.text_input('Age')
             gender = st.selectbox('Gender', ['Male', 'Female', 'Other'])
-            submit_button = st.form_submit_button(label='Update Student')
+            submit_button = st.button('Update Student')
         
         if submit_button and validate_input(name, email, age, gender, roll_no):
             update_student(roll_no, name, email, int(age), gender)
@@ -108,9 +108,9 @@ def main():
 
     elif choice == 'Delete Student':
         st.subheader('Delete Student')
-        with st.form(key='delete_student_form'):
+        with st.expander("Delete Existing Student"):
             roll_no = st.text_input('Roll No')
-            submit_button = st.form_submit_button(label='Delete Student')
+            submit_button = st.button('Delete Student')
         
         if submit_button and roll_no:
             delete_student(roll_no)
