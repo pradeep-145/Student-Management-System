@@ -1,7 +1,6 @@
 import sqlite3
 import streamlit as st
 
-# Database operations
 def create_table():
     conn = sqlite3.connect('students.db')
     cur = conn.cursor()
@@ -17,12 +16,6 @@ def create_table():
     ''')
     conn.commit()
     conn.close()
-
-def generate_roll_no():
-    year = "22"
-    dept = "CSR"
-    num = len(get_students()) + 1
-    return f"{year}{dept}{num:03d}"
 
 def insert_student(roll_no, name, email, age, gender):
     conn = sqlite3.connect('students.db')
@@ -77,28 +70,25 @@ def validate_input(name, email, age, gender, roll_no=None):
         return False
     return True
 
-# Main function to run the Streamlit app
 def main():
     st.title('Student Management System')
     
-    # Create the database table if it doesn't exist
     create_table()
 
-    # Sidebar menu for navigation
     menu = ['Add Student', 'Update Student', 'Delete Student', 'View Students']
     choice = st.sidebar.selectbox('Menu', menu)
 
     if choice == 'Add Student':
         st.subheader('Add Student')
         with st.form(key='add_student_form'):
+            roll_no = st.text_input('Roll No')
             name = st.text_input('Name')
             email = st.text_input('Email')
             age = st.text_input('Age')
             gender = st.selectbox('Gender', ['Male', 'Female', 'Other'])
             submit_button = st.form_submit_button(label='Add Student')
         
-        if submit_button and validate_input(name, email, age, gender):
-            roll_no = generate_roll_no()
+        if submit_button and validate_input(name, email, age, gender, roll_no):
             insert_student(roll_no, name, email, int(age), gender)
             st.success(f'Student {name} added successfully with Roll No {roll_no}')
 
@@ -129,7 +119,6 @@ def main():
     elif choice == 'View Students':
         st.subheader('View Students')
         students = get_students()
-        st.write('### Student List')
         st.table(students)
 
 if __name__ == '__main__':
