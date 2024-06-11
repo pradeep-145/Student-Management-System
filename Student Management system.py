@@ -71,6 +71,16 @@ def validate_input(name, email, age, gender, roll_no=None):
     return True
 
 def main():
+    st.markdown(
+        """
+        <style>
+        .stApp {
+            background-color: #F0F8FF;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
     st.title('Student Management System')
     
     create_table()
